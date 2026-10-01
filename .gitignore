@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules
+dist
+dist-ssr
+coverage
+*.tsbuildinfo
+.vite
+.eslintcache
+
+# Local overrides and secrets. SeqLens needs none, so nothing like this belongs in git.
+*.local
+.env
+.env.*
+*.pem
+*.key
+
+# Sequence data. Test fixtures live in source as strings; real datasets stay on your machine.
+*.fasta
+*.fa
+*.fna
+*.faa
+*.ffn
+*.frn
+*.fastq
+*.fq
+*.gz
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

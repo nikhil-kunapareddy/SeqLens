@@ -1,0 +1,259 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/**
+ * SeqLens design tokens.
+ *
+ * The visual language is a scientific instrument panel: a near-white cool-gray
+ * plane, white data surfaces, hairline borders, dark near-neutral ink, and one
+ * restrained accent. Colour is reserved for data, so chrome carries none.
+ *
+ * The categorical chart palette is the validated eight-slot order (blue,
+ * orange, aqua, yellow, magenta, green, violet, red). Slots are assigned in
+ * fixed order and never cycled: a ninth series folds into a neutral "other"
+ * bucket rather than reusing a hue. Three slots (aqua, yellow, magenta) sit
+ * below 3:1 against white, so every chart that uses them ships a downloadable
+ * table alongside - the relief requirement, not an optional extra.
+ *
+ * All-pairs forms (the embedding scatter) are limited to the first four slots,
+ * which is the largest subset that clears the colour-vision and normal-vision
+ * separation floors when any two marks can sit adjacent. Past four, the
+ * explorer adds marker shape as a second channel rather than a fifth hue.
+ */
+
+@theme {
+  /* Surfaces and ink */
+  --color-background: #f7f8f9;
+  --color-foreground: #101317;
+  --color-card: #ffffff;
+  --color-card-foreground: #101317;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #101317;
+
+  --color-muted: #f1f3f5;
+  --color-muted-foreground: #6b7280;
+  --color-subtle: #fafbfc;
+
+  --color-primary: #1c5cab;
+  --color-primary-foreground: #ffffff;
+  --color-primary-soft: #e8f0fb;
+
+  --color-secondary: #eef1f4;
+  --color-secondary-foreground: #1f2933;
+
+  --color-accent: #eef1f4;
+  --color-accent-foreground: #101317;
+
+  --color-destructive: #d03b3b;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #e2e5e8;
+  --color-input: #d7dbe0;
+  --color-ring: #1c5cab;
+
+  /* Hairline chart chrome */
+  --color-grid: #e8eaed;
+  --color-axis: #c4c8cc;
+
+  /* Status: fixed, never reused for a data series. Always paired with an
+     icon and a text label, because two of the four are sub-3:1 on white. */
+  --color-status-pass: #0ca30c;
+  --color-status-warning: #fab219;
+  --color-status-review: #d03b3b;
+  --color-status-neutral: #898781;
+
+  /* Categorical series, fixed order */
+  --color-chart-1: #2a78d6;
+  --color-chart-2: #eb6834;
+  --color-chart-3: #1baf7a;
+  --color-chart-4: #eda100;
+  --color-chart-5: #e87ba4;
+  --color-chart-6: #008300;
+  --color-chart-7: #4a3aa7;
+  --color-chart-8: #e34948;
+  --color-chart-other: #898781;
+
+  /* Sequential ramp: one hue, light to dark. Used for magnitude only. */
+  --color-seq-100: #cde2fb;
+  --color-seq-200: #9ec5f4;
+  --color-seq-300: #6da7ec;
+  --color-seq-400: #3987e5;
+  --color-seq-500: #256abf;
+  --color-seq-600: #184f95;
+  --color-seq-700: #0d366b;
+
+  /* Nucleotide colours. A green, C blue, G yellow, T/U red follows the
+     convention every genome browser uses, and this exact set clears the
+     all-pairs separation checks. The red/green pair sits in the 6-8
+     colour-vision band, so it is always accompanied by the 2px surface gap
+     between stacked segments plus a legend and a table view. */
+  --color-base-a: #008300;
+  --color-base-c: #2a78d6;
+  --color-base-g: #eda100;
+  --color-base-t: #e34948;
+  --color-base-n: #898781;
+
+  /* Amino acid class washes for the sequence viewer. These are backgrounds
+     behind near-black text, so the text carries the contrast and the wash only
+     has to be distinguishable from its neighbours. */
+  --color-aa-hydrophobic: #e6effa;
+  --color-aa-polar: #e4f4ee;
+  --color-aa-acidic: #fdeaea;
+  --color-aa-basic: #eae6f7;
+  --color-aa-aromatic: #fdf3e0;
+  --color-aa-special: #f2f3f4;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, Monaco, 'Cascadia Mono',
+    'Roboto Mono', 'Courier New', monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* Tabular figures wherever numbers align in a column. Explicitly NOT on
+     stat-tile values, where equal-width digits make a headline look loose. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* Thin, recessive scrollbars so dense tables do not gain a heavy frame. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd2d9 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #cbd2d9;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #aeb7c0;
+  }
+}
+
+@keyframes progress-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+@layer components {
+  /* Monospace residue rendering. `text-rendering: optimizeSpeed` matters: a
+     virtualised viewer repaints thousands of glyphs on every scroll frame, and
+     ligature and kerning work is wasted on single characters. */
+  .residues {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+    font-feature-settings: 'liga' 0, 'calt' 0;
+    text-rendering: optimizeSpeed;
+    white-space: pre;
+    letter-spacing: 0;
+  }
+
+  /* Hairline grid used by dense metric panels. */
+  .hairline-grid {
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    background-size: 1px 1px;
+  }
+}
+
+/* Recharts overrides: hairline, solid, recessive chrome. Dashed gridlines read
+   as thresholds rather than as a grid, so they are turned off globally. */
+.recharts-cartesian-grid line {
+  stroke: var(--color-grid);
+  stroke-dasharray: none !important;
+  stroke-width: 1;
+}
+
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--color-axis);
+  stroke-width: 1;
+}
+
+.recharts-text {
+  fill: var(--color-muted-foreground);
+  font-size: 11px;
+}
+
+.recharts-surface {
+  overflow: visible;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+/* Respect a reduced-motion preference: no chart entry animations, no
+   transitions that move content. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

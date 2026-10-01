@@ -1,0 +1,10 @@
+# Every path is owned by the maintainer until the project has more of them.
+# The files the privacy guarantee rests on are listed explicitly.
+*                                   @nikhil-kunapareddy
+
+/public/_headers                    @nikhil-kunapareddy
+/src/features/reports/              @nikhil-kunapareddy
+/src/utils/export.ts                @nikhil-kunapareddy
+/src/bio/parsers/                   @nikhil-kunapareddy
+/.github/                           @nikhil-kunapareddy
+/SECURITY.md                        @nikhil-kunapareddy

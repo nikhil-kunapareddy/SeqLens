@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose a change or a new analysis.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to do, and what gets in the way today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Method and references
+      description: For a new analysis, the algorithm and a reference implementation or paper to test it against.
+  - type: checkboxes
+    id: local
+    attributes:
+      label: Local-only
+      options:
+        - label: This works without any network request (SeqLens never sends data off the device).
+          required: true

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="SeqLens — a local-first sequence analysis workstation for FASTA and FASTQ files. All analysis runs in your browser; sequence data never leaves your device."
+    />
+    <meta name="robots" content="noindex" />
+    <!--
+      Content-Security-Policy is intentionally restrictive: the application makes
+      no network requests after load. 'connect-src none' would break Vite's dev
+      HMR websocket, so the enforced policy lives in public/_headers for static
+      hosting; this meta tag documents the intent for the dev server.
+    -->
+    <title>SeqLens — Local sequence intelligence</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      SeqLens performs all sequence analysis locally in your browser and requires
+      JavaScript to run.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

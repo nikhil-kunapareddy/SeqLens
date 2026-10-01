@@ -1,0 +1,48 @@
+name: Bug report
+description: Something does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security problems do not belong here.** Report them privately: see SECURITY.md.
+
+        **Do not attach real clinical, patient or proprietary sequence data.** A small
+        synthetic file that reproduces the problem is the most useful thing you can give.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, and what you saw. Include any error message shown on screen or in the console.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Import the attached synthetic FASTA
+        2. Open QC
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: "Chrome 141, Firefox 143, Safari 26, ..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SeqLens version or commit
+      description: Shown in Settings, or `git rev-parse --short HEAD`.
+    validations:
+      required: true

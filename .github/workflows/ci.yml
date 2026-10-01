@@ -1,0 +1,64 @@
+# SeqLens CI.
+#
+# One job, because the product is one static bundle: lint, type-check, test, build, then
+# check that the two things the privacy guarantee rests on are still true of the output.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint, types, tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # The browser, not the code, is what blocks outbound connections: if this
+      # directive disappears from the shipped headers, the guarantee becomes a promise.
+      - name: CSP still blocks outbound connections
+        run: |
+          grep -q "connect-src 'self'" dist/_headers \
+            || (echo "::error::dist/_headers lost connect-src 'self'" && exit 1)
+
+      # Imported files are untrusted; React's escaping is the defence, and these two
+      # APIs are the ways around it.
+      - name: No raw HTML sinks in application code
+        run: |
+          if grep -rnE "dangerouslySetInnerHTML|\.innerHTML\s*=|insertAdjacentHTML|document\.write" \
+               src --include='*.ts' --include='*.tsx' --exclude='*.test.*' --exclude-dir=test; then
+            echo "::error::raw HTML sink found; render text through React instead"
+            exit 1
+          fi

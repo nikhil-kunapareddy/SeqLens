@@ -1,0 +1,6 @@
+# gitleaks configuration: the default rules. SeqLens has no credentials of any kind, so
+# there is nothing to allowlist; a finding here is always worth reading.
+title = "SeqLens"
+
+[extend]
+useDefault = true
