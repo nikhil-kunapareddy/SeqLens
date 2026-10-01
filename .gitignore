@@ -30,3 +30,12 @@ coverage
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Compiled TypeScript. The tsconfigs set noEmit, so these only appear if something runs
+# tsc with emit enabled; the sources are the .ts/.tsx files beside them.
+src/**/*.js
+src/**/*.d.ts
+vite.config.js
+vitest.config.js
+vite.config.d.ts
+vitest.config.d.ts
